@@ -3,7 +3,7 @@ Tags: contact form, block, smtp, honeypot
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ A contact form block with authenticated SMTP, a honeypot, and server-side spam c
 
 Add the contact form block to a page and configure your own SMTP server. The form supports German, English, Spanish, Simplified Chinese, and Hindi.
 
-Spam checks include a honeypot, per-IP rate limiting, and rejection of messages made up only of digits and common number separators. Short messages and messages containing both words and numbers are accepted.
+Spam checks include a honeypot, per-IP rate limiting, and rejection of messages made up only of digits and common number separators. Submissions are also blocked when both the name and the message resemble long random mixed-case strings.
 
 = Privacy and SMTP =
 
@@ -29,6 +29,9 @@ WordPress stores the SMTP settings, including the password in the database, and 
 4. Add the contact form block to a public page. Exclude the page from full-page or CDN caching so form tokens and submission feedback stay current.
 
 == Changelog ==
+
+= 1.2.2 =
+* Block submissions with long random-looking mixed-case strings in both the name and message.
 
 = 1.2.1 =
 * Reject number-only messages on the server and show a localized validation message.

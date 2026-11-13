@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Einfaches Kontaktformular
  * Description: Gutenberg-Kontaktformular mit Honeypot, SMTP, Diagnose und fünf Sprachen.
- * Version: 1.2.1
+ * Version: 1.2.2
  * Requires at least: 6.3
  * Requires PHP: 7.4
  * Author: Nils Hünerfürst
@@ -177,6 +177,11 @@ function nh_ekf_require_post() {
     $method=isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD'])) : '';
     if ($method!=='POST') { wp_die('405','',array('response'=>405)); }
 }
+function nh_ekf_looks_like_random_token($value) {
+    // Require a long ASCII word with repeated changes between upper and lower case.
+    return preg_match('/\A[A-Za-z]{18,80}\z/', $value)
+        && preg_match_all('/(?<=[a-z])[A-Z]|(?<=[A-Z])[a-z]/', $value) >= 6;
+}
 function nh_ekf_send() {
     nocache_headers();
     nh_ekf_require_post();
@@ -191,6 +196,11 @@ function nh_ekf_send() {
     // Reject digit-only messages, including Unicode digits and number separators.
     if (preg_match('/\A(?=[^\p{Nd}]*\p{Nd})[\p{Nd}\p{Z}\p{Cf}\p{Pd}\s.,()+\/]+\z/u',$message)) {
         nh_ekf_finish($page,'numbers');
+    }
+    // Check both fields to avoid blocking a legitimate name or reference on its own.
+    if (nh_ekf_looks_like_random_token($name) && nh_ekf_looks_like_random_token($message)) {
+        nh_ekf_log('blocked_token','formsource');
+        nh_ekf_finish($page,'ok');
     }
     $ip=isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : 'unknown';
     $key='ekf_'.hash_hmac('sha256',$ip,wp_salt('auth')); $state=get_transient($key); $now=time();

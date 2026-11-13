@@ -1,4 +1,4 @@
-EINFACHES KONTAKTFORMULAR 1.2.1 — SMTP
+EINFACHES KONTAKTFORMULAR 1.2.2 — SMTP
 
 UPDATE
 Backup erstellen. ZIP über Plugins > Installieren hochladen, bestehende Version
@@ -47,7 +47,9 @@ Englisch als Fallback. Keine automatische Browserspracherkennung. Browserinterne
 Validierungsmeldungen und externe SMTP-Fehler werden nicht übersetzt.
 Honeypot, serverseitige Validierung, Nonce, fünf Versandversuche pro Stunde/IP,
 mindestens 60 Sekunden Abstand. Nachrichten, die nur Ziffern und übliche
-Zahlentrennzeichen enthalten, werden abgewiesen. Gesalzener IP-HMAC als Transient-Schlüssel;
+Zahlentrennzeichen enthalten, werden abgewiesen. Wenn Name und Nachricht beide
+wie lange Zufallsfolgen aus Groß- und Kleinbuchstaben aussehen, wird keine Mail
+versendet und die Diagnose zeigt die Blockierung an. Gesalzener IP-HMAC als Transient-Schlüssel;
 Zähler/Zeitstempel bis Stundenfenster, physische Bereinigung ggf. später durch WP.
 Gemeinsame IP teilt das Limit; Reverse-Proxy-IP serverseitig vertrauenswürdig
 konfigurieren. Transients sind nicht atomar, kein WAF-Ersatz. Nachrichten nicht

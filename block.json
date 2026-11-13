@@ -1,7 +1,7 @@
 {
   "apiVersion": 3,
   "name": "ekf/kontaktformular",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "title": "Kontaktformular",
   "category": "widgets",
   "icon": "email-alt",
