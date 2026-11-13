@@ -1,0 +1,62 @@
+EINFACHES KONTAKTFORMULAR 1.2.1 — SMTP
+
+UPDATE
+Backup erstellen. ZIP über Plugins > Installieren hochladen, bestehende Version
+ersetzen. Ordner und Blockname unverändert. Empfänger, Absender, Formularsprache
+und vorhandener Block bleiben erhalten. Nicht löschen/deinstallieren zum Update.
+WordPress 6.3+, PHP 7.4+. Keine zusätzlichen Bibliotheken oder Build-Schritte.
+
+EINRICHTUNG
+Einstellungen > Kontaktformular:
+- Empfänger und Absender setzen. Absender ist ein eigenes, beim Hoster erlaubtes
+  Postfach; für Netcup im Zweifel das authentifizierte Postfach selbst verwenden.
+- SMTP-Server exakt aus dem Netcup-WCP übernehmen. Kein https://, Port oder Pfad.
+- SMTP-Benutzername und Passwort des Postfachs, nicht des Netcup-Kundenkontos.
+- TLS (SMTPS), Port 465, ODER STARTTLS, Port 587 gemäß Anbieter wählen.
+- Speichern, dann Testmail senden. Test nutzt nur gespeicherte Einstellungen.
+- Danach öffentliches Formular testen und Diagnose im Backend neu laden.
+
+SMTP ist für Plugin-Mails verpflichtend, ohne PHP-Mail-Fallback. Ohne vollständige
+Konfiguration Fehler statt Versand. Andere WordPress-Mails werden nicht dauerhaft
+auf SMTP umgestellt. Das Plugin verwendet eine eigene Instanz des in WordPress
+enthaltenen PHPMailer. Andere Mailer-Plugins verwalten weiterhin WordPress-Mails.
+
+SICHERHEIT
+SMTP nur verschlüsselt, mit Zertifikatsprüfung. Kein abschaltbarer Zertifikatsschutz,
+kein Debug-Transkript. SMTP-Auth mit Benutzer/Passwort, kein OAuth/API-Mailer.
+Passwort wird nie ausgegeben oder vorausgefüllt. Leeres Feld behält es, Checkbox
+löscht es. SMTP-Konfiguration wird ohne Autoload gespeichert. Das Passwort ist in
+der Datenbank NICHT verschlüsselt: Datenbank, Backups und Adminzugänge schützen;
+HTTPS für das Backend verwenden. Keine Zugangsdaten an Support-Chat senden.
+Nur Administratoren dürfen konfigurieren und testen. Nonce-Prüfung für Aktionen.
+Passwort nicht mit sanitize_text_field verändern: Sonderzeichen bleiben erhalten.
+
+DIAGNOSE
+Nur letzter Versand-/Honeypotstatus, Zeitpunkt und Quelle. Bei Fehlern die
+SMTP-Einstellungen prüfen und bei Bedarf das Serverprotokoll beim Anbieter einsehen.
+SMTP angenommen bedeutet nicht im Posteingang zugestellt. Honeypots erhalten
+absichtlich dieselbe öffentliche Erfolgsmeldung, Backend zeigt den echten Status.
+Eingabe-, Nonce- und Ratenlimitfehler erscheinen im Formular und ändern diesen
+letzten Mailstatus nicht. Alte Diagnose bleibt bis zum nächsten Test sichtbar.
+Testbutton höchstens alle 10 Sekunden, kein eigener Hinweis für Doppelklicks.
+
+FORMULAR UND SPRACHEN
+Deutsch, Englisch, Spanisch, vereinfachtes Chinesisch und Hindi. Formular folgt
+Website-Sprache, alternativ fest wählbar. Backend/Editor folgen Benutzersprache.
+Englisch als Fallback. Keine automatische Browserspracherkennung. Browserinterne
+Validierungsmeldungen und externe SMTP-Fehler werden nicht übersetzt.
+Honeypot, serverseitige Validierung, Nonce, fünf Versandversuche pro Stunde/IP,
+mindestens 60 Sekunden Abstand. Nachrichten, die nur Ziffern und übliche
+Zahlentrennzeichen enthalten, werden abgewiesen. Gesalzener IP-HMAC als Transient-Schlüssel;
+Zähler/Zeitstempel bis Stundenfenster, physische Bereinigung ggf. später durch WP.
+Gemeinsame IP teilt das Limit; Reverse-Proxy-IP serverseitig vertrauenswürdig
+konfigurieren. Transients sind nicht atomar, kein WAF-Ersatz. Nachrichten nicht
+in WP gespeichert, sondern im E-Mail-System. Datenschutzerklärung ergänzen;
+WP-Datenschutzseite wird verlinkt. Kein Einwilligungs-Checkbox-Zwang implementiert.
+Fehler/Redirect leeren Eingaben. Keine Anhänge, keine automatische Antwort.
+Kontaktseite vom vollständigen Seiten-/CDN-Cache ausschließen (Nonces/Status).
+
+PRÜFUNG
+Zuerst Staging bzw. Backup. Testen: Block nach Update, beide SMTP-Modi gemäß Host,
+falsches Passwort/Host, leere Konfiguration, Testmail und tatsächlicher Empfang,
+Honeypot, Rate-Limit, fünf Sprachen, Tastatur- und Mobilbedienung.

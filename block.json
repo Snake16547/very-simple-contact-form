@@ -1,0 +1,15 @@
+{
+  "apiVersion": 3,
+  "name": "ekf/kontaktformular",
+  "version": "1.2.1",
+  "title": "Kontaktformular",
+  "category": "widgets",
+  "icon": "email-alt",
+  "textdomain": "einfaches-kontaktformular",
+  "editorScript": "file:./editor.js",
+  "style": "file:./style.css",
+  "supports": {
+    "html": false,
+    "multiple": false
+  }
+}
