@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Einfaches Kontaktformular
  * Description: Gutenberg-Kontaktformular mit Honeypot, SMTP, Diagnose und fünf Sprachen.
- * Version: 1.2.2
+ * Version: 1.2.3
  * Requires at least: 6.3
  * Requires PHP: 7.4
  * Author: Nils Hünerfürst
@@ -182,6 +182,13 @@ function nh_ekf_looks_like_random_token($value) {
     return preg_match('/\A[A-Za-z]{18,80}\z/', $value)
         && preg_match_all('/(?<=[a-z])[A-Z]|(?<=[A-Z])[a-z]/', $value) >= 6;
 }
+function nh_ekf_has_matching_token_digits($name, $message) {
+    // Match single uppercase tokens with a long number surrounded by letters.
+    $pattern = '/\A[A-Z]{4,}([0-9]{5,})[A-Z]{4,}\z/';
+    return preg_match($pattern, $name, $name_match)
+        && preg_match($pattern, $message, $message_match)
+        && $name_match[1] === $message_match[1];
+}
 function nh_ekf_send() {
     nocache_headers();
     nh_ekf_require_post();
@@ -198,7 +205,8 @@ function nh_ekf_send() {
         nh_ekf_finish($page,'numbers');
     }
     // Check both fields to avoid blocking a legitimate name or reference on its own.
-    if (nh_ekf_looks_like_random_token($name) && nh_ekf_looks_like_random_token($message)) {
+    if ((nh_ekf_looks_like_random_token($name) && nh_ekf_looks_like_random_token($message))
+        || nh_ekf_has_matching_token_digits($name, $message)) {
         nh_ekf_log('blocked_token','formsource');
         nh_ekf_finish($page,'ok');
     }

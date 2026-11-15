@@ -3,7 +3,7 @@ Tags: contact form, block, smtp, honeypot
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,9 @@ WordPress stores the SMTP settings, including the password in the database, and 
 4. Add the contact form block to a public page. Exclude the page from full-page or CDN caching so form tokens and submission feedback stay current.
 
 == Changelog ==
+
+= 1.2.3 =
+* Block submissions when the name and message are uppercase codes with the same embedded number.
 
 = 1.2.2 =
 * Block submissions with long random-looking mixed-case strings in both the name and message.

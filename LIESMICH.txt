@@ -1,4 +1,4 @@
-EINFACHES KONTAKTFORMULAR 1.2.2 — SMTP
+EINFACHES KONTAKTFORMULAR 1.2.3 — SMTP
 
 UPDATE
 Backup erstellen. ZIP über Plugins > Installieren hochladen, bestehende Version
